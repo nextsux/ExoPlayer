@@ -343,6 +343,8 @@ import java.util.concurrent.atomic.AtomicInteger;
       // This flag ensures the change of pid between streams does not affect the sample queues.
       @DefaultTsPayloadReaderFactory.Flags
       int esReaderFactoryFlags = DefaultTsPayloadReaderFactory.FLAG_IGNORE_SPLICE_INFO_STREAM;
+      esReaderFactoryFlags |= DefaultTsPayloadReaderFactory.FLAG_ALLOW_NON_IDR_KEYFRAMES;
+
       String codecs = trackFormat.codecs;
       if (!TextUtils.isEmpty(codecs)) {
         // Sometimes AAC and H264 streams are declared in TS chunks even though they don't really
