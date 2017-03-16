@@ -1,0 +1,66 @@
+package com.google.android.exoplayer2.extractor.ts;
+
+
+import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.extractor.ExtractorOutput;
+import com.google.android.exoplayer2.extractor.TrackOutput;
+import com.google.android.exoplayer2.extractor.ts.TsPayloadReader.TrackIdGenerator;
+import com.google.android.exoplayer2.util.MimeTypes;
+import com.google.android.exoplayer2.util.ParsableByteArray;
+
+
+public class DvbSubtitlesReader implements ElementaryStreamReader {
+
+    private static final String TAG= "DVBSubsReader";
+    private final String language;
+
+    private long sampleTimeUs;
+    private int totalBytesWritten;
+    private boolean writingSample;
+
+    private TrackOutput output;
+
+    public DvbSubtitlesReader(String language) {
+        this.language = language;
+    }
+
+
+    @Override
+    public void seek() {
+        writingSample = false;
+    }
+
+    @Override
+    public void createTracks(ExtractorOutput extractorOutput, TrackIdGenerator idGenerator) {
+        idGenerator.generateNewId();
+        this.output = extractorOutput.track(idGenerator.getTrackId(), C.TRACK_TYPE_TEXT);
+        output.format(Format.createImageSampleFormat(idGenerator.getFormatId(), MimeTypes.APPLICATION_DVBSUBS, null, Format.NO_VALUE, null, language, null));
+    }
+
+
+    @Override
+    public void packetStarted(long pesTimeUs, boolean dataAlignmentIndicator) {
+        if (!dataAlignmentIndicator) {
+            return;
+        }
+        writingSample = true;
+        sampleTimeUs = pesTimeUs;
+        totalBytesWritten = 0;
+    }
+
+    @Override
+    public void packetFinished() {
+        output.sampleMetadata(sampleTimeUs, C.BUFFER_FLAG_KEY_FRAME, totalBytesWritten, 0, null);
+        writingSample = false;
+    }
+
+    @Override
+    public void consume(ParsableByteArray data) {
+        if (writingSample) {
+            totalBytesWritten += data.bytesLeft();
+            output.sampleData(data, data.bytesLeft());
+            //Log.d(TAG, "bytesWritten=" + totalBytesWritten);
+        }
+    }
+}
