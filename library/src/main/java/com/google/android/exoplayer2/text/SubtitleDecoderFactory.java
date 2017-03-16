@@ -112,6 +112,8 @@ public interface SubtitleDecoderFactory {
             return Class.forName("com.google.android.exoplayer2.text.cea.Cea608Decoder");
           case MimeTypes.APPLICATION_CEA708:
             return Class.forName("com.google.android.exoplayer2.text.cea.Cea708Decoder");
+          case MimeTypes.APPLICATION_DVBSUBS:
+            return Class.forName("com.google.android.exoplayer2.text.dvbsubs.DvbSubsDecoder");
           default:
             return null;
         }
