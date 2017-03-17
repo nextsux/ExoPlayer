@@ -145,7 +145,13 @@ import com.google.android.exoplayer2.util.Util;
   public void draw(Cue cue, boolean applyEmbeddedStyles, CaptionStyleCompat style, float textSizePx,
       float bottomPaddingFraction, Canvas canvas, int cueBoxLeft, int cueBoxTop, int cueBoxRight,
       int cueBoxBottom) {
+    Log.v("NXSubtitlePainter", "draw");
     boolean isTextCue = cue.bitmap == null;
+    if (isTextCue) {
+      Log.v("NXSubtitlePainter", "is text");
+    } else {
+      Log.v("NXSubtitlePainter", "is bitmap");
+    }
     CharSequence cueText = null;
     Bitmap cueBitmap = null;
     int windowColor = Color.BLACK;
@@ -388,6 +394,7 @@ import com.google.android.exoplayer2.util.Util;
   }
 
   private void drawBitmapLayout(Canvas canvas) {
+    Log.v("NXSubtitlePainter", "draw bitmap layout");
     canvas.drawBitmap(cueBitmap, null, bitmapRect, null);
   }
 

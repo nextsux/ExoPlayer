@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.accessibility.CaptioningManager;
@@ -88,6 +89,8 @@ public final class SubtitleView extends View implements TextRenderer.Output {
    * @param cues The cues to display.
    */
   public void setCues(List<Cue> cues) {
+    Log.v("NXSUBTITLE", "setCues");
+    Log.v("NXSUBTITLE", Integer.toString(cues.size()));
     if (this.cues == cues) {
       return;
     }
