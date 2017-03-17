@@ -356,6 +356,7 @@ import java.util.concurrent.atomic.AtomicInteger;
       // This flag ensures the change of pid between streams does not affect the sample queues.
       @DefaultTsPayloadReaderFactory.Flags
       int esReaderFactoryFlags = DefaultTsPayloadReaderFactory.FLAG_IGNORE_SPLICE_INFO_STREAM;
+      esReaderFactoryFlags |= DefaultTsPayloadReaderFactory.FLAG_ALLOW_NON_IDR_KEYFRAMES;
       if (!muxedCaptionFormats.isEmpty()) {
         // The playlist declares closed caption renditions, we should ignore descriptors.
         esReaderFactoryFlags |= DefaultTsPayloadReaderFactory.FLAG_OVERRIDE_CAPTION_DESCRIPTORS;
