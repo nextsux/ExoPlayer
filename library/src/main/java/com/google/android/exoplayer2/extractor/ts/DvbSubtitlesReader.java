@@ -9,11 +9,15 @@ import com.google.android.exoplayer2.extractor.ts.TsPayloadReader.TrackIdGenerat
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class DvbSubtitlesReader implements ElementaryStreamReader {
 
     private static final String TAG= "DVBSubsReader";
     private final String language;
+    private List<byte[]> initializationData = new ArrayList<>();
 
     private long sampleTimeUs;
     private int totalBytesWritten;
@@ -21,8 +25,12 @@ public class DvbSubtitlesReader implements ElementaryStreamReader {
 
     private TrackOutput output;
 
-    public DvbSubtitlesReader(String language) {
-        this.language = language;
+    public DvbSubtitlesReader(TsPayloadReader.EsInfo esInfo) {
+        // we only support one subtitle service per PID
+        this.language = esInfo.language;
+        this.initializationData.add(new byte[] {esInfo.descriptorBytes[5]}); // subtitle subtype
+        this.initializationData.add(new byte[] {esInfo.descriptorBytes[6], esInfo.descriptorBytes[7]}); // subtitle compose page
+        this.initializationData.add(new byte[] {esInfo.descriptorBytes[8], esInfo.descriptorBytes[9]}); // subtitle ancillary page
     }
 
 
@@ -35,7 +43,7 @@ public class DvbSubtitlesReader implements ElementaryStreamReader {
     public void createTracks(ExtractorOutput extractorOutput, TrackIdGenerator idGenerator) {
         idGenerator.generateNewId();
         this.output = extractorOutput.track(idGenerator.getTrackId(), C.TRACK_TYPE_TEXT);
-        output.format(Format.createImageSampleFormat(idGenerator.getFormatId(), MimeTypes.APPLICATION_DVBSUBS, null, Format.NO_VALUE, null, language, null));
+        output.format(Format.createImageSampleFormat(idGenerator.getFormatId(), MimeTypes.APPLICATION_DVBSUBS, null, Format.NO_VALUE, initializationData, language, null));
     }
 
 
@@ -60,7 +68,6 @@ public class DvbSubtitlesReader implements ElementaryStreamReader {
         if (writingSample) {
             totalBytesWritten += data.bytesLeft();
             output.sampleData(data, data.bytesLeft());
-            //Log.d(TAG, "bytesWritten=" + totalBytesWritten);
         }
     }
 }

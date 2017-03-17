@@ -25,6 +25,8 @@ import com.google.android.exoplayer2.text.webvtt.Mp4WebvttDecoder;
 import com.google.android.exoplayer2.text.webvtt.WebvttDecoder;
 import com.google.android.exoplayer2.util.MimeTypes;
 
+import java.util.List;
+
 /**
  * A factory for {@link SubtitleDecoder} instances.
  */
@@ -83,6 +85,8 @@ public interface SubtitleDecoderFactory {
         } else if (format.sampleMimeType.equals(MimeTypes.APPLICATION_CEA708)) {
           return clazz.asSubclass(SubtitleDecoder.class).getConstructor(Integer.TYPE)
               .newInstance(format.accessibilityChannel);
+        } else if (format.sampleMimeType.equals(MimeTypes.APPLICATION_DVBSUBS) && format.initializationData != null) {
+          return clazz.asSubclass(SubtitleDecoder.class).getConstructor(List.class).newInstance(format.initializationData);
         } else {
           return clazz.asSubclass(SubtitleDecoder.class).getConstructor().newInstance();
         }
