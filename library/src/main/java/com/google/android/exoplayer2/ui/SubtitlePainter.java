@@ -193,6 +193,7 @@ import com.google.android.exoplayer2.util.Util;
         && this.parentRight == cueBoxRight
         && this.parentBottom == cueBoxBottom) {
       // We can use the cached layout.
+      Log.v("NXSubtitlePainter", "used cached layout");
       drawLayout(canvas, isTextCue);
       return;
     }
@@ -219,6 +220,10 @@ import com.google.android.exoplayer2.util.Util;
     this.parentTop = cueBoxTop;
     this.parentRight = cueBoxRight;
     this.parentBottom = cueBoxBottom;
+    Log.v("NXSubtitlePainter", "used new layout");
+    Log.v("NXSubtitlePainter", "used new layout");
+
+    Log.v("NXSubtitlePainter", " " + this.cueText + " " + this.cueTextAlignment + " " + this.cuePosition + " " + this.cuePositionAnchor + " " + this.cueSize);
 
     if (isTextCue) {
       setupTextLayout();
