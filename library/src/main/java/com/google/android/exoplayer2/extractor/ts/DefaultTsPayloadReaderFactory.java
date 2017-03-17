@@ -64,12 +64,12 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
       case TsExtractor.TS_STREAM_TYPE_MPA_LSF:
         return new PesReader(new MpegAudioReader(esInfo.language));
       case TsExtractor.TS_STREAM_TYPE_AAC:
-        Log.i("NXLOG", "TS_STREAM_TYPE_AAC");
-        if (isSet(FLAG_IGNORE_AAC_STREAM)) {
-          Log.i("NXLOG", "TS_STREAM_TYPE_AAC - FLAG_IGNORE_AAC_STREAM");
-        } else {
-          Log.i("NXLOG", "TS_STREAM_TYPE_AAC - no FLAG_IGNORE_AAC_STREAM");
-        }
+//        Log.i("NXLOG", "TS_STREAM_TYPE_AAC");
+//        if (isSet(FLAG_IGNORE_AAC_STREAM)) {
+//          Log.i("NXLOG", "TS_STREAM_TYPE_AAC - FLAG_IGNORE_AAC_STREAM");
+//        } else {
+//          Log.i("NXLOG", "TS_STREAM_TYPE_AAC - no FLAG_IGNORE_AAC_STREAM");
+//        }
         return isSet(FLAG_IGNORE_AAC_STREAM)
             ? null : new PesReader(new AdtsReader(false, esInfo.language));
       case TsExtractor.TS_STREAM_TYPE_AC3:
@@ -81,23 +81,23 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
       case TsExtractor.TS_STREAM_TYPE_H262:
         return new PesReader(new H262Reader());
       case TsExtractor.TS_STREAM_TYPE_H264:
-        Log.i("NXLOG", "TS_STREAM_TYPE_H264");
-
-        if (isSet(FLAG_IGNORE_H264_STREAM)) {
-          Log.i("NXLOG", "TS_STREAM_TYPE_H264 - FLAG_IGNORE_H264_STREAM");
-        } else {
-          Log.i("NXLOG", "TS_STREAM_TYPE_H264 - no FLAG_IGNORE_H264_STREAM");
-        }
-        if (isSet(FLAG_ALLOW_NON_IDR_KEYFRAMES)) {
-          Log.i("NXLOG", "TS_STREAM_TYPE_H264 - FLAG_ALLOW_NON_IDR_KEYFRAMES");
-        } else {
-          Log.i("NXLOG", "TS_STREAM_TYPE_H264 - no FLAG_ALLOW_NON_IDR_KEYFRAMES");
-        }
-        if (isSet(FLAG_DETECT_ACCESS_UNITS)) {
-          Log.i("NXLOG", "TS_STREAM_TYPE_H264 - FLAG_DETECT_ACCESS_UNITS");
-        } else {
-          Log.i("NXLOG", "TS_STREAM_TYPE_H264 - no FLAG_DETECT_ACCESS_UNITS");
-        }
+//        Log.i("NXLOG", "TS_STREAM_TYPE_H264");
+//
+//        if (isSet(FLAG_IGNORE_H264_STREAM)) {
+//          Log.i("NXLOG", "TS_STREAM_TYPE_H264 - FLAG_IGNORE_H264_STREAM");
+//        } else {
+//          Log.i("NXLOG", "TS_STREAM_TYPE_H264 - no FLAG_IGNORE_H264_STREAM");
+//        }
+//        if (isSet(FLAG_ALLOW_NON_IDR_KEYFRAMES)) {
+//          Log.i("NXLOG", "TS_STREAM_TYPE_H264 - FLAG_ALLOW_NON_IDR_KEYFRAMES");
+//        } else {
+//          Log.i("NXLOG", "TS_STREAM_TYPE_H264 - no FLAG_ALLOW_NON_IDR_KEYFRAMES");
+//        }
+//        if (isSet(FLAG_DETECT_ACCESS_UNITS)) {
+//          Log.i("NXLOG", "TS_STREAM_TYPE_H264 - FLAG_DETECT_ACCESS_UNITS");
+//        } else {
+//          Log.i("NXLOG", "TS_STREAM_TYPE_H264 - no FLAG_DETECT_ACCESS_UNITS");
+//        }
 
         return isSet(FLAG_IGNORE_H264_STREAM) ? null : new PesReader(
             new H264Reader(isSet(FLAG_ALLOW_NON_IDR_KEYFRAMES), isSet(FLAG_DETECT_ACCESS_UNITS)));
