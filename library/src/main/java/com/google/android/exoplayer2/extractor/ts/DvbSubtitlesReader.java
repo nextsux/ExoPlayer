@@ -31,6 +31,7 @@ public class DvbSubtitlesReader implements ElementaryStreamReader {
         this.initializationData.add(new byte[] {esInfo.descriptorBytes[5]}); // subtitle subtype
         this.initializationData.add(new byte[] {esInfo.descriptorBytes[6], esInfo.descriptorBytes[7]}); // subtitle compose page
         this.initializationData.add(new byte[] {esInfo.descriptorBytes[8], esInfo.descriptorBytes[9]}); // subtitle ancillary page
+        this.initializationData.add("mp2t".getBytes());
     }
 
 
