@@ -1,5 +1,7 @@
 package com.google.android.exoplayer2.text.dvbsubs;
 
+import android.util.Log;
+
 import com.google.android.exoplayer2.text.SimpleSubtitleDecoder;
 
 import java.util.Arrays;
@@ -24,6 +26,8 @@ public final class DvbSubsDecoder extends SimpleSubtitleDecoder {
 
     public DvbSubsDecoder(List<byte[]> initializationData) {
         super("dvbsubs");
+
+        Log.v("DVBSUB", "DvbSubsDecoder");
 
         byte[] tempByteArray;
 
