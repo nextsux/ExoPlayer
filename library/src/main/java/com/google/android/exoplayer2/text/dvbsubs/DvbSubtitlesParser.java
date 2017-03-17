@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.DashPathEffect;
 import android.graphics.Region;
+import android.support.annotation.IntDef;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -18,6 +19,13 @@ import com.google.android.exoplayer2.util.ParsableBitArray;
 public class DvbSubtitlesParser {
 
     private static final String TAG = "DVBSubs";
+
+    @IntDef(flag = true, value = {FLAG_PES_STRIPPED_DVBSUB})
+    public @interface Flags {
+    }
+    public static final int FLAG_PES_STRIPPED_DVBSUB = 1;
+
+    @Flags private final int flags;
 
     /* List of different SEGMENT TYPES */
     /* According to EN 300-743, table 2 */
@@ -422,7 +430,12 @@ public class DvbSubtitlesParser {
     }
 
     DvbSubtitlesParser(int subtitlePage, int ancillaryPage) {
+        this(subtitlePage, ancillaryPage, 0);
+    }
+
+    DvbSubtitlesParser(int subtitlePage, int ancillaryPage, @Flags int flags) {
         this.subtitleService = new SubtitleService();
+        this.flags = flags;
 
         subtitleService.subtitlePage = subtitlePage;
         subtitleService.ancillaryPage = ancillaryPage;
@@ -1336,11 +1349,13 @@ public class DvbSubtitlesParser {
         } else {
             return null;
         }
-        if (tsStream.readBits(8) != 0x20) {   // data_identifier
-            return null;
-        }
-        if (tsStream.readBits(8) != 0x00) {   // subtitle_stream_id
-            return null;
+        if (!isSet(FLAG_PES_STRIPPED_DVBSUB)) {
+            if (tsStream.readBits(8) != 0x20) {   // data_identifier
+                return null;
+            }
+            if (tsStream.readBits(8) != 0x00) {   // subtitle_stream_id
+                return null;
+            }
         }
 
         if (BuildConfig.DEBUG) Log.d(TAG,"New PES subtitle packet.");
@@ -1349,9 +1364,16 @@ public class DvbSubtitlesParser {
         // test for segment Sync Byte and account for possible additional wordalign byte in Object data segment
         while (sync == 0x0f || (sync == 0x00 && (sync = tsStream.readBits(8)) == 0x0f)) {
             parseSubtitlingSegment();
-            sync = tsStream.readBits(8);
+            if (isSet(FLAG_PES_STRIPPED_DVBSUB)) {
+                if (tsStream.bitsLeft() == 0) {
+                    break;
+                }
+            } else {
+                sync = tsStream.readBits(8);
+            }
         }
-        if (sync == 0xff) {                   // end_of_PES_data_field_marker
+
+        if (sync == 0xff || (isSet(FLAG_PES_STRIPPED_DVBSUB) && tsStream.bitsLeft() == 0)) { // end_of_PES_data_field_marker
             // paint the current Subtitle definition
             if (subtitleService.pageComposition != null) {
 
@@ -1503,6 +1525,10 @@ public class DvbSubtitlesParser {
             Log.d(TAG,"Unexpected...");
         }
         return null;
+    }
+
+    private boolean isSet(@Flags int flag) {
+        return (flags & flag) != 0;
     }
 
 }
