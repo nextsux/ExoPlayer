@@ -224,7 +224,9 @@ public final class SubtitleView extends View implements TextRenderer.Output {
 
   @Override
   public void dispatchDraw(Canvas canvas) {
+    Log.v("SubtitleView", "dispatchDraw");
     int cueCount = (cues == null) ? 0 : cues.size();
+    Log.v("SubtitleView", "cuecount: " + cueCount);
     int rawTop = getTop();
     int rawBottom = getBottom();
 

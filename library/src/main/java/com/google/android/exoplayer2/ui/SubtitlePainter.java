@@ -221,8 +221,6 @@ import com.google.android.exoplayer2.util.Util;
     this.parentRight = cueBoxRight;
     this.parentBottom = cueBoxBottom;
     Log.v("NXSubtitlePainter", "used new layout");
-    Log.v("NXSubtitlePainter", "used new layout");
-
     Log.v("NXSubtitlePainter", " " + this.cueText + " " + this.cueTextAlignment + " " + this.cuePosition + " " + this.cuePositionAnchor + " " + this.cueSize);
 
     if (isTextCue) {
@@ -328,6 +326,7 @@ import com.google.android.exoplayer2.util.Util;
         : cueLineAnchor == Cue.ANCHOR_TYPE_MIDDLE ? (anchorX - (width / 2)) : anchorX);
     int y = Math.round(cuePositionAnchor == Cue.ANCHOR_TYPE_END ? (anchorY - height)
         : cuePositionAnchor == Cue.ANCHOR_TYPE_MIDDLE ? (anchorY - (height / 2)) : anchorY);
+    Log.v("NXSubtitles", "bitmap layout: " + x + " " + y + " " + width + " " + height);
     bitmapRect = new Rect(x, y, x + width, y + height);
   }
 
