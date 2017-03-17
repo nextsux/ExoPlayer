@@ -452,9 +452,8 @@ public final class TsExtractor implements Extractor {
           // Audio type is ignored.
         } else if (descriptorTag == TS_PMT_DESC_DVBSUBS) {
           streamType = TS_STREAM_TYPE_DVBSUBS;
+          // we only support one subtitle service per PID
           language = new String(data.data, data.getPosition(), 3).trim();
-          //streamSubType = data.data[data.getPosition() + 3];
-          // We discard all the additional info as is no relevant to the library
         }
         // Skip unused bytes of current descriptor.
         data.skipBytes(positionOfNextDescriptor - data.getPosition());
