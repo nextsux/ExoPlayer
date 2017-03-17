@@ -41,9 +41,12 @@ public class DvbSubtitlesReader implements ElementaryStreamReader {
 
     @Override
     public void createTracks(ExtractorOutput extractorOutput, TrackIdGenerator idGenerator) {
-        idGenerator.generateNewId();
-        this.output = extractorOutput.track(idGenerator.getTrackId(), C.TRACK_TYPE_TEXT);
-        output.format(Format.createImageSampleFormat(idGenerator.getFormatId(), MimeTypes.APPLICATION_DVBSUBS, null, Format.NO_VALUE, initializationData, language, null));
+        output = extractorOutput.track(idGenerator.getNextId());
+        output.format(Format.createImageSampleFormat(null, MimeTypes.APPLICATION_DVBSUBS, null, Format.NO_VALUE, initializationData, language, null));
+
+//        idGenerator.generateNewId();
+//        this.output = extractorOutput.track(idGenerator.getTrackId(), C.TRACK_TYPE_TEXT);
+//        output.format(Format.createImageSampleFormat(idGenerator.getFormatId(), MimeTypes.APPLICATION_DVBSUBS, null, Format.NO_VALUE, initializationData, language, null));
     }
 
 
