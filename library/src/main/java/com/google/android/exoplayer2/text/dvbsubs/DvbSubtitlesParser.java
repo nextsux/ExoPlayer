@@ -463,11 +463,13 @@ public class DvbSubtitlesParser {
         segmentId = tsStream.readBits(8);
         switch (segmentId) {
             case DVBSUB_ST_DISPLAY_DEFINITION:
-                if (BuildConfig.DEBUG) Log.d(TAG, "    Parse Display Definition segment.");
+//                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "    Parse Display Definition segment.");
                 DisplayDefinition tempDisplay = parseDisplayDefinitionSegment();
                 if (tempDisplay != null && tempDisplay.pageId == subtitleService.subtitlePage) {
                     subtitleService.displayDefinition = tempDisplay;
-                    if (BuildConfig.DEBUG) Log.d(TAG + "/DDS", "    [versionNumber] = " + tempDisplay.versionNumber +
+//                    if (BuildConfig.DEBUG)
+                        Log.d(TAG + "/DDS", "    [versionNumber] = " + tempDisplay.versionNumber +
                             " [width/height] = " + (tempDisplay.displayWidth + 1) + "/" + (tempDisplay.displayHeight + 1) +
                             " Window[minX/minY/maxX/maxY] = " + tempDisplay.displayWindowHorizontalPositionMinimum +
                             "/" + tempDisplay.displayWindowVerticalPositionMinimum +
@@ -477,7 +479,8 @@ public class DvbSubtitlesParser {
                 }
                 break;
             case DVBSUB_ST_PAGE_COMPOSITION:
-                if (BuildConfig.DEBUG) Log.d(TAG, "    Parse Page Composition segment.");
+//                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "    Parse Page Composition segment.");
                 PageComposition tempPage = parsePageCompositionSegment();
                 if (tempPage != null && tempPage.pageId == subtitleService.subtitlePage) {
                     if (tempPage.pageState == DVBSUB_PCS_STATE_NORMAL && subtitleService.pageComposition == null)
@@ -486,14 +489,16 @@ public class DvbSubtitlesParser {
                 }
                 break;
             case DVBSUB_ST_REGION_COMPOSITION:
-                if (BuildConfig.DEBUG) Log.d(TAG, "    Parse Region Composition segment.");
+//                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "    Parse Region Composition segment.");
                 RegionComposition tempRegionComposition = parseRegionCompositionSegment();
                 if (tempRegionComposition != null && tempRegionComposition.pageId == subtitleService.subtitlePage) {
                     subtitleService.regions.put(tempRegionComposition.regionId, tempRegionComposition);
                 }
                 break;
             case DVBSUB_ST_CLUT_DEFINITION:
-                if (BuildConfig.DEBUG) Log.d(TAG, "    Parse Clut Definition segment.");
+//                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "    Parse Clut Definition segment.");
                 ClutDefinition tempClutDefinition = parseClutDefinitionSegment();
                 if (tempClutDefinition != null ) {
                     if (tempClutDefinition.pageId == subtitleService.subtitlePage) {
@@ -504,7 +509,8 @@ public class DvbSubtitlesParser {
                 }
                 break;
             case DVBSUB_ST_OBJECT_DATA:
-                if (BuildConfig.DEBUG) Log.d(TAG, "    Parse Object Data segment.");
+//                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "    Parse Object Data segment.");
                 ObjectData tempObjectData = parseObjectDataSegment();
                 if (tempObjectData != null) {
                     if (tempObjectData.pageId == subtitleService.subtitlePage) {
@@ -517,13 +523,15 @@ public class DvbSubtitlesParser {
             case DVBSUB_ST_ENDOFDISPLAY:
                 pageId = tsStream.readBits(16);
                 segmentLength = tsStream.readBits(16);
-                if (BuildConfig.DEBUG) Log.d(TAG, "pageId " + pageId + "end of display size = " + segmentLength);
+//                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "pageId " + pageId + "end of display size = " + segmentLength);
                 tsStream.skipBits(segmentLength * 8);
                 break;
             case DVBSUB_ST_STUFFING:
                 pageId = tsStream.readBits(16);
                 segmentLength = tsStream.readBits(16);
-                if (BuildConfig.DEBUG) Log.d(TAG, "pageId " + pageId + "stuffing size = " + segmentLength);
+//                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "pageId " + pageId + "stuffing size = " + segmentLength);
                 tsStream.skipBits(segmentLength * 8);
                 break;
             default:
@@ -622,20 +630,20 @@ public class DvbSubtitlesParser {
                 (subtitleService.pageComposition.pageVersionNumber + 1) % 16 == page.pageVersionNumber) {
             page.pageRegions = subtitleService.pageComposition.pageRegions;
 
-            if (BuildConfig.DEBUG) {
+//            if (BuildConfig.DEBUG) {
                 Log.d(TAG, "        Updated Page Composition. pageId: " + page.pageId +
                         " version: " + page.pageVersionNumber +
                         " timeout: " + page.pageTimeOut
                 );
-            }
+//            }
 
         } else if (subtitleService.subtitlePage == page.pageId) {
-            if (BuildConfig.DEBUG) {
+//            if (BuildConfig.DEBUG) {
                 if (page.pageState == DVBSUB_PCS_STATE_NORMAL) {
                     Log.d(TAG, "        FAILED Page Composition update. pageId: " + page.pageId +
                             " Version(Old/New): " + (subtitleService.pageComposition != null ? subtitleService.pageComposition.pageVersionNumber : "NaN") + "/" + page.pageVersionNumber);
                 }
-            }
+//            }
 
             subtitleService.newSubtitle = false;
             subtitleService.pageComposition = null;
@@ -643,14 +651,14 @@ public class DvbSubtitlesParser {
             subtitleService.cluts = new SparseArray<>();
             subtitleService.objects = new SparseArray<>();
 
-            if (BuildConfig.DEBUG) {
+//            if (BuildConfig.DEBUG) {
                 if (page.pageState != DVBSUB_PCS_STATE_NORMAL) {
                     Log.d(TAG, "        New Page Composition. pageId: " + page.pageId +
                             " version: " + page.pageVersionNumber +
                             " timeout: " + page.pageTimeOut
                     );
                 }
-            }
+//            }
         }
 
         remainingSegmentLength -= 2;
@@ -662,12 +670,12 @@ public class DvbSubtitlesParser {
             region.regionHorizontalAddress = tsStream.readBits(16);
             region.regionVerticalAddress = tsStream.readBits(16);
 
-            if (BuildConfig.DEBUG) {
+//            if (BuildConfig.DEBUG) {
                 Log.d(TAG, "            " +
                         (page.pageRegions.get(region.regionId) == null ? "New" : "Upd.") +
                         " Page Region. regionId: " + region.regionId +
                         " (x/y): (" + region.regionHorizontalAddress + "/" + region.regionVerticalAddress + ")");
-            }
+//            }
 
             page.pageRegions.put(region.regionId, region);
 
@@ -735,10 +743,10 @@ public class DvbSubtitlesParser {
         region.clutId = tsStream.readBits(8);
         tsStream.skipBits(16);
 
-        if (BuildConfig.DEBUG) {
+//        if (BuildConfig.DEBUG) {
             Log.d(TAG, "        New Region Composition. regionId: " + region.regionId +
                     " (w/h): (" + region.regionWidth + "/" + region.regionHeight + ")");
-        }
+//        }
 
         remainingSegmentLength -= 10;
         RegionObject object;
@@ -760,11 +768,11 @@ public class DvbSubtitlesParser {
                 remainingSegmentLength -= 2;
             }
 
-            if (BuildConfig.DEBUG) {
+//            if (BuildConfig.DEBUG) {
                 Log.d(TAG, "            New Region Object[" + arrayIndex + "]." +
                         " objectId: " + object.objectId +
                         " (x/y): (" + object.objectHorizontalPosition + "/" + object.objectVerticalPosition + ")");
-            }
+//            }
 
             region.regionObjects.put(arrayIndex++, object);
         }
@@ -1358,7 +1366,8 @@ public class DvbSubtitlesParser {
             }
         }
 
-        if (BuildConfig.DEBUG) Log.d(TAG,"New PES subtitle packet.");
+//        if (BuildConfig.DEBUG)
+        Log.d(TAG,"New PES subtitle packet.");
 
         int sync = tsStream.readBits(8);
         // test for segment Sync Byte and account for possible additional wordalign byte in Object data segment
@@ -1377,7 +1386,7 @@ public class DvbSubtitlesParser {
             // paint the current Subtitle definition
             if (subtitleService.pageComposition != null) {
 
-                if (BuildConfig.DEBUG) {
+//                if (BuildConfig.DEBUG) {
                     Log.d(TAG, "Rendering subtitle. w: " + subtitleService.displayDefinition.displayWidth +
                             " h: " + subtitleService.displayDefinition.displayHeight);
                     if ((subtitleService.displayDefinition.flags & DISPLAY_WINDOW_FLAG) != 0) {
@@ -1391,7 +1400,7 @@ public class DvbSubtitlesParser {
                                 ")"
                         );
                     }
-                }
+//                }
 
                 int a,b;
                 PageRegion pageRegion;
@@ -1453,7 +1462,7 @@ public class DvbSubtitlesParser {
 
                     }
 
-                    if (BuildConfig.DEBUG) {
+//                    if (BuildConfig.DEBUG) {
                         Log.d(TAG, "    Region: " + regionKey + " (x/y/w/h): (" +
                                 baseHorizontalAddress + "/" + baseVerticalAddress + "/" +
                                 (baseHorizontalAddress + regionComposition.regionWidth - 1) + "/" +
@@ -1467,7 +1476,7 @@ public class DvbSubtitlesParser {
                                 baseHorizontalAddress + regionComposition.regionWidth - 1,
                                 baseVerticalAddress + regionComposition.regionHeight - 1,
                                 subtitleService.displayDefinition.paintObject);
-                    }
+//                    }
 
                     RegionObject regionObject;
                     int objectKey;
@@ -1476,7 +1485,7 @@ public class DvbSubtitlesParser {
                         objectKey = regionComposition.regionObjects.keyAt(b);
                         regionObject = regionComposition.regionObjects.get(objectKey);
 
-                        if (BuildConfig.DEBUG) {
+//                        if (BuildConfig.DEBUG) {
                             Log.d(TAG, "        Object[" + objectKey + "]. objectId: " + regionObject.objectId + " (x/y): (" +
                                     (baseHorizontalAddress + regionObject.objectHorizontalPosition) + "/" +
                                     (baseVerticalAddress + regionObject.objectVerticalPosition) + ")"
@@ -1490,7 +1499,7 @@ public class DvbSubtitlesParser {
                                     baseHorizontalAddress + regionObject.objectHorizontalPosition + regionComposition.regionWidth - 1,
                                     baseVerticalAddress + regionObject.objectVerticalPosition + regionComposition.regionHeight - 1,
                                     subtitleService.displayDefinition.paintObject);
-                        }
+//                        }
 
                         if ((object = subtitleService.objects.get(regionObject.objectId)) == null) {
                             if ((object = subtitleService.ancillaryObjects.get(regionObject.objectId)) == null) {
@@ -1507,13 +1516,13 @@ public class DvbSubtitlesParser {
 
                 subtitleService.displayDefinition.lastValidBitmap =
                         subtitleService.displayDefinition.bitmaps[subtitleService.displayDefinition.currentBitmap];
-                if (BuildConfig.DEBUG) {
+//                if (BuildConfig.DEBUG) {
                     if (subtitleService.displayDefinition.lastValidBitmap.sameAs(subtitleService.displayDefinition.bitmaps[(subtitleService.displayDefinition.currentBitmap + 1) % subtitleService.displayDefinition.NUM_BITMAPS])) {
                         Log.d(TAG, "REPEATED SUBTITLE");
                     } else {
                         Log.d(TAG, "NEW SUBTITLE");
                     }
-                }
+//                }
                 subtitleService.displayDefinition.currentBitmap =
                         (subtitleService.displayDefinition.currentBitmap + 1) % subtitleService.displayDefinition.NUM_BITMAPS;
                 subtitleService.displayDefinition.canvasObject =
