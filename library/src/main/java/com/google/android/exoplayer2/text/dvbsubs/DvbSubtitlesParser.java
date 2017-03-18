@@ -462,10 +462,10 @@ public class DvbSubtitlesParser {
         int pageId, segmentId, segmentLength;
         segmentId = tsStream.readBits(8);
         switch (segmentId) {
-//            case DVBSUB_ST_DISPLAY_DEFINITION:
+            case DVBSUB_ST_DISPLAY_DEFINITION:
 ////                if (BuildConfig.DEBUG)
 //                    Log.d(TAG, "    Parse Display Definition segment.");
-//                DisplayDefinition tempDisplay = parseDisplayDefinitionSegment();
+                DisplayDefinition tempDisplay = parseDisplayDefinitionSegment();
 //                if (tempDisplay != null && tempDisplay.pageId == subtitleService.subtitlePage) {
 //                    subtitleService.displayDefinition = tempDisplay;
 ////                    if (BuildConfig.DEBUG)
@@ -477,7 +477,7 @@ public class DvbSubtitlesParser {
 //                            "/" + tempDisplay.displayWindowVerticalPositionMaximum
 //                    );
 //                }
-//                break;
+                break;
             case DVBSUB_ST_PAGE_COMPOSITION:
 //                if (BuildConfig.DEBUG)
                     Log.d(TAG, "    Parse Page Composition segment.");
