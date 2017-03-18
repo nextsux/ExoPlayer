@@ -322,7 +322,7 @@ import com.google.android.exoplayer2.util.Util;
     float anchorY = parentTop + (parentHeight * cueLine);
     Log.v("NXSubtitles", "sizes: " + parentWidth + " " + parentHeight + " " + anchorX + " " + anchorY);
     int width = Math.round(parentWidth * cueSize);
-    int height = Math.round(width * ((float) cueBitmap.getHeight() / cueBitmap.getWidth()));
+    int height = Math.min(Math.round(width * ((float) cueBitmap.getHeight() / cueBitmap.getWidth())), parentHeight);
     Log.v("NXSubtitles", "sizes2: " + width + " " + height + " " + cueBitmap.getHeight() + " " + cueBitmap.getWidth());
     // NX TODO - bad size???
     int x = Math.round(cueLineAnchor == Cue.ANCHOR_TYPE_END ? (anchorX - width)
