@@ -462,22 +462,22 @@ public class DvbSubtitlesParser {
         int pageId, segmentId, segmentLength;
         segmentId = tsStream.readBits(8);
         switch (segmentId) {
-            case DVBSUB_ST_DISPLAY_DEFINITION:
-//                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "    Parse Display Definition segment.");
-                DisplayDefinition tempDisplay = parseDisplayDefinitionSegment();
-                if (tempDisplay != null && tempDisplay.pageId == subtitleService.subtitlePage) {
-                    subtitleService.displayDefinition = tempDisplay;
-//                    if (BuildConfig.DEBUG)
-                        Log.d(TAG + "/DDS", "    [versionNumber] = " + tempDisplay.versionNumber +
-                            " [width/height] = " + (tempDisplay.displayWidth + 1) + "/" + (tempDisplay.displayHeight + 1) +
-                            " Window[minX/minY/maxX/maxY] = " + tempDisplay.displayWindowHorizontalPositionMinimum +
-                            "/" + tempDisplay.displayWindowVerticalPositionMinimum +
-                            "/" + tempDisplay.displayWindowHorizontalPositionMaximum +
-                            "/" + tempDisplay.displayWindowVerticalPositionMaximum
-                    );
-                }
-                break;
+//            case DVBSUB_ST_DISPLAY_DEFINITION:
+////                if (BuildConfig.DEBUG)
+//                    Log.d(TAG, "    Parse Display Definition segment.");
+//                DisplayDefinition tempDisplay = parseDisplayDefinitionSegment();
+//                if (tempDisplay != null && tempDisplay.pageId == subtitleService.subtitlePage) {
+//                    subtitleService.displayDefinition = tempDisplay;
+////                    if (BuildConfig.DEBUG)
+//                        Log.d(TAG + "/DDS", "    [versionNumber] = " + tempDisplay.versionNumber +
+//                            " [width/height] = " + (tempDisplay.displayWidth + 1) + "/" + (tempDisplay.displayHeight + 1) +
+//                            " Window[minX/minY/maxX/maxY] = " + tempDisplay.displayWindowHorizontalPositionMinimum +
+//                            "/" + tempDisplay.displayWindowVerticalPositionMinimum +
+//                            "/" + tempDisplay.displayWindowHorizontalPositionMaximum +
+//                            "/" + tempDisplay.displayWindowVerticalPositionMaximum
+//                    );
+//                }
+//                break;
             case DVBSUB_ST_PAGE_COMPOSITION:
 //                if (BuildConfig.DEBUG)
                     Log.d(TAG, "    Parse Page Composition segment.");
