@@ -1468,15 +1468,18 @@ public class DvbSubtitlesParser {
                                 (baseHorizontalAddress + regionComposition.regionWidth - 1) + "/" +
                                 (baseVerticalAddress + regionComposition.regionHeight - 1) + ")"
                         );
+                    if (false) {
+                        // NX ULTRA DEBUG OF REGIONS
                         subtitleService.displayDefinition.paintObject.setColor(0xff00ff00);
                         subtitleService.displayDefinition.paintObject.setStyle(Paint.Style.STROKE);
-                        subtitleService.displayDefinition.paintObject.setPathEffect(new DashPathEffect(new float[] {2,2}, 0));
+                        subtitleService.displayDefinition.paintObject.setPathEffect(new DashPathEffect(new float[]{2, 2}, 0));
                         subtitleService.displayDefinition.canvasObject.drawRect(
                                 baseHorizontalAddress, baseVerticalAddress,
                                 baseHorizontalAddress + regionComposition.regionWidth - 1,
                                 baseVerticalAddress + regionComposition.regionHeight - 1,
                                 subtitleService.displayDefinition.paintObject);
 //                    }
+                    }
 
                     RegionObject regionObject;
                     int objectKey;
@@ -1490,16 +1493,21 @@ public class DvbSubtitlesParser {
                                     (baseHorizontalAddress + regionObject.objectHorizontalPosition) + "/" +
                                     (baseVerticalAddress + regionObject.objectVerticalPosition) + ")"
                             );
-                            subtitleService.displayDefinition.paintObject.setColor(0xffff0000);
-                            subtitleService.displayDefinition.paintObject.setStyle(Paint.Style.STROKE);
-                            subtitleService.displayDefinition.paintObject.setPathEffect(new DashPathEffect(new float[]{10, 20}, 0));
-                            subtitleService.displayDefinition.canvasObject.drawRect(
-                                    baseHorizontalAddress + regionObject.objectHorizontalPosition,
-                                    baseVerticalAddress + regionObject.objectVerticalPosition,
-                                    baseHorizontalAddress + regionObject.objectHorizontalPosition + regionComposition.regionWidth - 1,
-                                    baseVerticalAddress + regionObject.objectVerticalPosition + regionComposition.regionHeight - 1,
-                                    subtitleService.displayDefinition.paintObject);
+                            if (false) {
+                                // NX ULTRA DEBUG OF REGIONS
+                                subtitleService.displayDefinition.paintObject.setColor(0xffff0000);
+                                subtitleService.displayDefinition.paintObject.setStyle(Paint.Style.STROKE);
+                                subtitleService.displayDefinition.paintObject.setPathEffect(new DashPathEffect(new float[]{10, 20}, 0));
+                                subtitleService.displayDefinition.canvasObject.drawRect(
+                                        baseHorizontalAddress + regionObject.objectHorizontalPosition,
+                                        baseVerticalAddress + regionObject.objectVerticalPosition,
+                                        baseHorizontalAddress + regionObject.objectHorizontalPosition + regionComposition.regionWidth - 1,
+                                        baseVerticalAddress + regionObject.objectVerticalPosition + regionComposition.regionHeight - 1,
+                                        subtitleService.displayDefinition.paintObject);
 //                        }
+                            }
+
+
 
                         if ((object = subtitleService.objects.get(regionObject.objectId)) == null) {
                             if ((object = subtitleService.ancillaryObjects.get(regionObject.objectId)) == null) {
